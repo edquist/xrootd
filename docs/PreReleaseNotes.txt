@@ -7,6 +7,7 @@ Prerelease Notes
 
 + **New Features**
   * **[Proxy]** Add 'pss.tid' CGI element to all outgoing URL's.
+  * **[Server]** Add additional fields to he SecEntity structure (breaks ABI).
   * **[Server]** Allow space preassignment of file creation paths.
   * **[Server]** [Server] Allow spaces in id's via acc.spacechar. Fixes #712
   * **[Server]** Add 'query confg start' to find server start time.
