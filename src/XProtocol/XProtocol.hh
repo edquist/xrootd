@@ -955,6 +955,8 @@ struct ALIGN_CHECK {char chkszreq[25-sizeof(ClientRequest)];
 #ifndef ENOATTR
 #define ENOATTR ENODATA
 #endif
+
+struct stat;
   
 class XProtocol
 {
@@ -1030,5 +1032,6 @@ static int toErrno( int xerr )
 static const char *errName(kXR_int32 errCode);
 
 static const char *reqName(kXR_unt16 reqCode);
-};
+
+}; // XProtocol
 #endif
