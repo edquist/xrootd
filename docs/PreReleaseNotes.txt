@@ -6,6 +6,7 @@ Prerelease Notes
 ================
 
 + **New Features**
+  * **[SSI]** Simplify GetResponseData() to return void not enum (breaks ABI).
   * **[Proxy]** Add 'pss.tid' CGI element to all outgoing URL's.
   * **[Server]** Trivialize OFS plugin wrapping (breaks ABI).
   * **[Server]** Add additional fields to he SecEntity structure (breaks ABI).
