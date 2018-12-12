@@ -6,6 +6,8 @@ Prerelease Notes
 ================
 
 + **New Features**
+  * **[SSI]** Export request scaling interface.
+  * **[SSI]** Add generic Control() method for future use.
   * **[SSI]** Simplify GetResponseData() to return void not enum (breaks ABI).
   * **[Proxy]** Add 'pss.tid' CGI element to all outgoing URL's.
   * **[Server]** Trivialize OFS plugin wrapping (breaks ABI).
