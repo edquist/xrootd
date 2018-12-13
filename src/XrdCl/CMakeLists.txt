@@ -97,7 +97,7 @@ target_link_libraries(
   XrdXml
   XrdUtils
   pthread
-  ${CMAKE_DL_LIBS})
+  ${CMAKE_DL_LIBS}
   ssl)
 
 set_target_properties(
