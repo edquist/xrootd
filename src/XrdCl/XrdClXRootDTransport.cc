@@ -1332,7 +1332,7 @@ namespace XrdCl
 
     proto->requestid = htons(kXR_protocol);
     proto->clientpv  = htonl(kXR_PROTOCOLVERSION);
-    proto->flags     = kXR_secreqs;
+    proto->flags     = ClientProtocolRequest::kXR_secreqs;
     return msg;
   }
 

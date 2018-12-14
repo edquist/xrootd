@@ -93,13 +93,8 @@
 #define kXR_supgetf   0x00400000
 #define kXR_supputf   0x00200000
 
-#define kXR_Expect    0x000f0000
-#define kXR_ExpNone   0x00000000
-#define kXR_ExpBind   0x00010000
-#define kXR_ExpLogin  0x00020000
-#define kXR_ExpTPC    0x00030000
-
-#define kXR_haveTls   0x80000000
+#define kXR_haveTLS   0x80000000
+#define kXR_gotoTLS   0x40000000
 #define kXR_tlsAny    0x0f000000
 #define kXR_tlsData   0x01000000
 #define kXR_tlsLogin  0x02000000
@@ -247,11 +242,6 @@ enum XOpenRequestOption {
    kXR_open_wrto=32768
 };
 
-enum XProtocolRequestFlags {
-   kXR_secreqs  = 1,     // Options: Return security requirements
-   kXR_wantTls  = 2      // Options: Change connection to use TLS
-};
-
 enum XQueryType {
    kXR_QStats = 1,
    kXR_QPrep  = 2,
@@ -365,6 +355,7 @@ enum XErrorCode {
    kXR_SigVerErr,
    kXR_DecryptErr,
    kXR_Overloaded,
+   kXR_TLSRequired,
    kXR_ERRFENCE,    // Always last valid errcode + 1
    kXR_noErrorYet = 10000
 };
@@ -500,8 +491,24 @@ struct ClientProtocolRequest {
    kXR_unt16 requestid;
    kXR_int32 clientpv;      // 2.9.7 or higher
    kXR_char  flags;         // 3.1.0 or higher
-   kXR_char  reserved[11];
+   kXR_char  expect;        // 4.0.0 or higher
+   kXR_char  reserved[10];
    kXR_int32 dlen;
+
+enum RequestFlags {
+   kXR_secreqs  = 0x01,  // Options: Return security requirements
+   kXR_ableTLS  = 0x02,  // Options: Client is TLS capable
+   kXR_wantTLS  = 0x04   // Options: Change connection to use TLS
+};
+
+enum ExpectFlags {
+   kXR_ExpMask   = 0x0f, // Isolate the relevant expect birs (encoded)
+   kXR_ExpNone   = 0x00,
+   kXR_ExpBind   = 0x01,
+   kXR_ExpLogin  = 0x02,
+   kXR_ExpTPC    = 0x03
+};
+
 };
 struct ClientPrepareRequest {
    kXR_char  streamid[2];
@@ -936,6 +943,7 @@ static int mapError(int rc)
            case EILSEQ:       return kXR_SigVerErr;
            case ERANGE:       return kXR_DecryptErr;
            case EUSERS:       return kXR_Overloaded;
+           case EPROTOTYPE:   return kXR_TLSRequired;
            default:           return kXR_FSError;
           }
       }
@@ -968,6 +976,7 @@ static int toErrno( int xerr )
         case kXR_SigVerErr:     return EILSEQ;
         case kXR_DecryptErr:    return ERANGE;
         case kXR_Overloaded:    return EUSERS;
+        case kXR_TLSRequired:   return EPROTOTYPE;
         default:                return ENOMSG;
        }
 }

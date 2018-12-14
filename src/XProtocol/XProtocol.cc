@@ -86,7 +86,9 @@ const char *errNames[kXR_ERRFENCE-kXR_ArgInvalid] =
                     "Request in progress",        // kXR_inProgress
                     "Quota exceeded",             // kXR_overQuota
                     "Invalid signature",          // kXR_SigVerErr
-                    "Decryption failed"           // kXR_DecryptErr
+                    "Decryption failed",          // kXR_DecryptErr
+                    "Server is overloaded",       // kXR_Overloaded
+                    "Operation requires TLS"      // kXR_TLSRequired
                    };
 
 const char *reqNames[kXR_REQFENCE-kXR_auth] =
